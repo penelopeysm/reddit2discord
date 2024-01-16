@@ -18,7 +18,7 @@ import System.Environment (getEnv)
 
 -- The post to monitor
 postID :: ID Post
-postID = PostID "196laf2"
+postID = "196laf2"
 
 -- The subreddit the post is on
 subreddit :: Text
@@ -44,8 +44,8 @@ postToDiscord c = do
           . T.replace "&amp;" "&"
           . T.replace "&lt;" "<"
           . T.replace "&gt;" ">"
-          $ if T.length (commentBody c) > 200
-            then T.take 200 (commentBody c) <> "..."
+          $ if T.length (commentBody c) > 1500
+            then T.take 1500 (commentBody c) <> "..."
             else commentBody c
   let message =
         T.concat
@@ -72,7 +72,7 @@ postToDiscord c = do
                   { R.messageDetailedContent = message,
                     R.messageDetailedEmbeds = Just []
                   }
-          error "done here"
+          error "done here" -- Kill the thread.
         _ -> pure ()
   void $
     runDiscord $
